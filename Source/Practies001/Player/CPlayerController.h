@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Components/CStateComponent.h"
 #include "CPlayerController.generated.h"
 
 /**
@@ -19,8 +20,14 @@ public:
 	ACPlayerController();
 
 protected:
+	virtual void BeginPlay() override;
+protected:
 	virtual void SetupInputComponent() override;
 	virtual void PlayerTick(float DeltaTime) override;
+
+public:
+
+	void GetHitResult(FHitResult hitResult);
 
 private:
 	void SetNewDestination(const FVector Destination);
@@ -29,8 +36,14 @@ private:
 
 	void InputRightMouseButtonPressed();
 	void InputRightMouseButtonReleased();
+	void InputSpacebarButtonPressed();
+
+
+
 
 private:
 	bool bClickRightMouse;
+	FHitResult HitResult;
+	APawn* CurrentPawn;
 
 };

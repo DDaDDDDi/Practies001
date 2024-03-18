@@ -1,5 +1,6 @@
 #include "CPlayer.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/CMontagesComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -32,7 +33,12 @@ ACPlayer::ACPlayer()
 	CameraComp->SetupAttachment(SpringArmComp, USpringArmComponent::SocketName);
 	CameraComp->bUsePawnControlRotation = false;
 
-	
+	//static void CreateActorComponent(AActor * InActor, T * *OutComponent, FName InName)
+	//{
+	//	*OutComponent = InActor->CreateDefaultSubobject<T>(InName);
+	//}	CHelpers::CreateActorComponent(this, &Action, "Action");
+
+	Montages = CreateDefaultSubobject<UCMontagesComponent>("Montages");
 }
 
 void ACPlayer::BeginPlay()
@@ -51,5 +57,9 @@ void ACPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void ACPlayer::OnStateTypeChanged(EStateType InPrevType, EStateType InNewType)
+{
 }
 

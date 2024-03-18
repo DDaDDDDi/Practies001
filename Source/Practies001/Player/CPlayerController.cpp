@@ -1,9 +1,15 @@
 #include "CPlayerController.h"
 #include <Blueprint/AIBlueprintHelperLibrary.h>
+#include "CPlayer.h"
 
 ACPlayerController::ACPlayerController()
 {
 	bShowMouseCursor = true;
+
+}
+
+void ACPlayerController::BeginPlay()
+{
 
 }
 
@@ -13,6 +19,7 @@ void ACPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction("RightClick", IE_Pressed, this, &ACPlayerController::InputRightMouseButtonPressed);
 	InputComponent->BindAction("RightClick", IE_Released, this, &ACPlayerController::InputRightMouseButtonReleased);
+	InputComponent->BindAction("Evade", IE_Pressed, this, &ACPlayerController::InputSpacebarButtonPressed);
 }
 
 void ACPlayerController::PlayerTick(float DeltaTime)
@@ -24,6 +31,13 @@ void ACPlayerController::PlayerTick(float DeltaTime)
 		MoveToMouseCursor();
 	}
 	
+}
+
+
+
+void ACPlayerController::GetHitResult(FHitResult hitResult)
+{
+	hitResult = HitResult;
 }
 
 void ACPlayerController::SetNewDestination(const FVector Destination)
@@ -42,12 +56,12 @@ void ACPlayerController::SetNewDestination(const FVector Destination)
 
 void ACPlayerController::MoveToMouseCursor()
 {
-	FHitResult hitResult;
-	GetHitResultUnderCursor(ECC_Visibility, false, hitResult);
+	HitResult;
+	GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
 
-	if (hitResult.bBlockingHit)
+	if (HitResult.bBlockingHit)
 	{
-		SetNewDestination(hitResult.ImpactPoint); 
+		SetNewDestination(HitResult.ImpactPoint); 
 	}
 }
 
@@ -59,4 +73,13 @@ void ACPlayerController::InputRightMouseButtonPressed()
 void ACPlayerController::InputRightMouseButtonReleased()
 {
 	bClickRightMouse = false;
+}
+
+void ACPlayerController::InputSpacebarButtonPressed()
+{
+	FHitResult hitResult;
+	GetHitResultUnderCursor(ECC_Visibility, false, hitResult);
+	ACPlayer* playerC = Cast<ACPlayer>(GetCharacter());
+	
+
 }
