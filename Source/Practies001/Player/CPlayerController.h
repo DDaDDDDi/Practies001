@@ -37,13 +37,36 @@ private:
 	void InputRightMouseButtonPressed();
 	void InputRightMouseButtonReleased();
 	void InputSpacebarButtonPressed();
+	void InputLeftMouseButtonPressed();
 
+public:
+	UFUNCTION(BlueprintNativeEvent)
+	void ChangeFisrt();
+	void ChangeFisrt_Implementation();
+	UFUNCTION(BlueprintNativeEvent)
+	void ChangeSecond();
+	void ChangeSecond_Implementation();
+	
+	UFUNCTION(BlueprintNativeEvent)
+	void ChangeThird();
+	void ChangeThird_Implementation();
 
+		UFUNCTION(BlueprintNativeEvent)
+	void ddd();
+	void ddd_Implementation();
 
+	UFUNCTION(BlueprintNativeEvent)
+		void ffff(AActor* InActor, AActor* OutActor);
+	void ffff_Implementation(AActor* InActor, AActor* OutActor);
 
 private:
 	bool bClickRightMouse;
 	FHitResult HitResult;
 	APawn* CurrentPawn;
+
+public:
+	
+	UPROPERTY(BlueprintReadOnly)
+		TSubclassOf<class ACPlayer> PlayerClass;
 
 };

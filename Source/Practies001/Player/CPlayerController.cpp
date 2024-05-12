@@ -1,15 +1,21 @@
 #include "CPlayerController.h"
 #include <Blueprint/AIBlueprintHelperLibrary.h>
 #include "CPlayer.h"
+#include "CPlayer_Warrior.h"
+#include "Global.h"
 
 ACPlayerController::ACPlayerController()
 {
 	bShowMouseCursor = true;
 
+	CHelpers::GetClass<ACPlayer>(&PlayerClass, "Blueprint'/Game/Player/BP_CPlayer.BP_CPlayer_C'");
+	CheckNull(PlayerClass);
+
 }
 
 void ACPlayerController::BeginPlay()
 {
+	
 
 }
 
@@ -20,6 +26,13 @@ void ACPlayerController::SetupInputComponent()
 	InputComponent->BindAction("RightClick", IE_Pressed, this, &ACPlayerController::InputRightMouseButtonPressed);
 	InputComponent->BindAction("RightClick", IE_Released, this, &ACPlayerController::InputRightMouseButtonReleased);
 	InputComponent->BindAction("Evade", IE_Pressed, this, &ACPlayerController::InputSpacebarButtonPressed);
+	InputComponent->BindAction("FisrtCharacter", IE_Pressed, this, &ACPlayerController::ChangeFisrt);
+	InputComponent->BindAction("SecondCharacter", IE_Pressed, this, &ACPlayerController::ChangeSecond);
+	InputComponent->BindAction("ThirdCharacter", IE_Pressed, this, &ACPlayerController::ChangeThird);
+	InputComponent->BindAction("dddd", IE_Pressed, this, &ACPlayerController::ddd);
+
+	InputComponent->BindAction("LeftCllick", IE_Pressed, this, &ACPlayerController::InputLeftMouseButtonPressed);
+	
 }
 
 void ACPlayerController::PlayerTick(float DeltaTime)
@@ -77,9 +90,49 @@ void ACPlayerController::InputRightMouseButtonReleased()
 
 void ACPlayerController::InputSpacebarButtonPressed()
 {
-	FHitResult hitResult;
-	GetHitResultUnderCursor(ECC_Visibility, false, hitResult);
-	ACPlayer* playerC = Cast<ACPlayer>(GetCharacter());
-	
+	CLog::Print("dddd");
+	ACPlayer* player = Cast<ACPlayer>(GetPawn());
+	CheckNull(player);
+	player->OnEvade();
 
+}
+
+void ACPlayerController::InputLeftMouseButtonPressed()
+{
+	ACPlayer* player = Cast<ACPlayer>(GetPawn());
+	CheckNull(player);
+	player->DoAction();
+}
+
+void ACPlayerController::ChangeFisrt_Implementation()
+{
+	CLog::Print("dd");
+	TArray<AActor*> actors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), PlayerClass, actors);
+
+	ACPlayer_Warrior* playerC = Cast<ACPlayer_Warrior>(actors.Last());
+	CheckNull(playerC);
+	CLog::Print(playerC->GetName());
+	
+	if (playerC->Job == EJob::Warrior)
+	{
+		playerC->First(playerC);
+	SetPawn(playerC);
+	}
+}
+
+void ACPlayerController::ChangeSecond_Implementation()
+{
+}
+
+void ACPlayerController::ChangeThird_Implementation()
+{
+}
+
+void ACPlayerController::ddd_Implementation()
+{
+}
+
+void ACPlayerController::ffff_Implementation(AActor* InActor, AActor* OutActor)
+{
 }

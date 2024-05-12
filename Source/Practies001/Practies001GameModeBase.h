@@ -9,5 +9,5 @@ class PRACTIES001_API APracties001GameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 
-
+		APracties001GameModeBase();
 };

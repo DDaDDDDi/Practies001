@@ -7,8 +7,15 @@
 UENUM(BlueprintType)
 enum class EStateType : uint8
 {
-	Idle, Roll, Max
+	Idle, Roll,Hitted , Dead, Max
 };
+
+UENUM(BlueprintType)
+enum class EJob : uint8
+{
+	Knight, Warrior, Archer, magician, Max
+};
+
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FStateTypeChangedSignature, EStateType, InPrevType, EStateType, InNewType);
 
